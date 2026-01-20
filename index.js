@@ -16,7 +16,7 @@ app.post("/api/qwen-image", async (req, res) => {
     }
 
     const response = await fetch(
-      "https://api-inference.huggingface.co/models/Qwen/Qwen-Image-Edit",
+      "https://router.huggingface.co/models/Qwen/Qwen-Image-Edit",
       {
         method: "POST",
         headers: {
