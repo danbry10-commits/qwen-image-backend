@@ -7,6 +7,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// =====================
+// Тестовый GET маршрут
+// =====================
+app.get("/", (req, res) => {
+  res.send("Server is live! Backend работает.");
+});
+
+// =====================
+// POST маршрут для генерации картинки
+// =====================
 app.post("/api/qwen-image", async (req, res) => {
   try {
     const { prompt } = req.body;
@@ -29,8 +39,12 @@ app.post("/api/qwen-image", async (req, res) => {
       }
     );
 
+    // =====================
+    // Логируем ошибки Hugging Face
+    // =====================
     if (!response.ok) {
       const text = await response.text();
+      console.error("Hugging Face error:", text); // <- этот console.log
       return res.status(500).json({ error: text });
     }
 
@@ -39,6 +53,7 @@ app.post("/api/qwen-image", async (req, res) => {
     res.send(Buffer.from(buffer));
 
   } catch (e) {
+    console.error("Server error:", e); // <- тоже логируем
     res.status(500).json({ error: "Generation error" });
   }
 });
